@@ -1,15 +1,15 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
-import Layout from './Layout';
 import { MemoryRouter } from 'react-router-dom';
+import Layout from './Layout';
 
 describe('Layout', () => {
   it('renders title and links text', () => {
     render(
       <MemoryRouter>
         <Layout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getAllByText(/Consent Manager/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Give consent/i).length).toBeGreaterThan(0);
@@ -20,7 +20,7 @@ describe('Layout', () => {
     render(
       <MemoryRouter>
         <Layout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Count occurrences (permanent drawer content is always in DOM in JSDOM)

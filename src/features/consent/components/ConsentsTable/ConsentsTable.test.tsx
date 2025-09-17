@@ -22,7 +22,7 @@ describe('ConsentsTable', () => {
   const types: ConsentType[] = [
     { name: 'email', label: 'Receive newsletter via email' },
     { name: 'sms', label: 'Receive newsletter via SMS' },
-    { name: 'ads', label: 'Targeted ads' }
+    { name: 'ads', label: 'Targeted ads' },
   ];
 
   beforeEach(() => {
@@ -33,7 +33,13 @@ describe('ConsentsTable', () => {
   it('renders empty state and disables pagination on single page', () => {
     const onPageChange = vi.fn();
     render(
-      <ConsentsTable consents={[]} page={1} pageSize={2} totalItems={0} onPageChange={onPageChange} />
+      <ConsentsTable
+        consents={[]}
+        page={1}
+        pageSize={2}
+        totalItems={0}
+        onPageChange={onPageChange}
+      />,
     );
     expect(screen.getByText(/no consents yet/i)).toBeInTheDocument();
     const prev = screen.getByLabelText(/go to previous page/i);
@@ -44,11 +50,25 @@ describe('ConsentsTable', () => {
 
   it('renders rows for provided consents', () => {
     const rows = [
-      makeConsent({ name: 'Bojack Horseman', email: 'bojack@horseman.com', consentTypes: ['email', 'ads'] }),
-      makeConsent({ name: 'Princess Carolyn', email: 'princess@manager.com', consentTypes: ['email'] })
+      makeConsent({
+        name: 'Bojack Horseman',
+        email: 'bojack@horseman.com',
+        consentTypes: ['email', 'ads'],
+      }),
+      makeConsent({
+        name: 'Princess Carolyn',
+        email: 'princess@manager.com',
+        consentTypes: ['email'],
+      }),
     ];
     render(
-      <ConsentsTable consents={rows} page={1} pageSize={2} totalItems={2} onPageChange={() => { }} />
+      <ConsentsTable
+        consents={rows}
+        page={1}
+        pageSize={2}
+        totalItems={2}
+        onPageChange={() => {}}
+      />,
     );
     expect(screen.getByText('Bojack Horseman')).toBeInTheDocument();
     expect(screen.getByText('bojack@horseman.com')).toBeInTheDocument();
@@ -59,7 +79,13 @@ describe('ConsentsTable', () => {
   it('triggers onPageChange when clicking a page number', async () => {
     const onPageChange = vi.fn();
     render(
-      <ConsentsTable consents={[makeConsent()]} page={2} pageSize={2} totalItems={4} onPageChange={onPageChange} />
+      <ConsentsTable
+        consents={[makeConsent()]}
+        page={2}
+        pageSize={2}
+        totalItems={4}
+        onPageChange={onPageChange}
+      />,
     );
     await userEvent.click(screen.getByLabelText(/go to page 1/i));
     expect(onPageChange).toHaveBeenCalledWith(1);
@@ -68,7 +94,13 @@ describe('ConsentsTable', () => {
   it('navigates with next/previous controls', async () => {
     const onPageChange = vi.fn();
     const { unmount } = render(
-      <ConsentsTable consents={[makeConsent()]} page={1} pageSize={2} totalItems={4} onPageChange={onPageChange} />
+      <ConsentsTable
+        consents={[makeConsent()]}
+        page={1}
+        pageSize={2}
+        totalItems={4}
+        onPageChange={onPageChange}
+      />,
     );
     await userEvent.click(screen.getByLabelText(/go to next page/i));
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -76,7 +108,13 @@ describe('ConsentsTable', () => {
     onPageChange.mockClear();
     unmount();
     render(
-      <ConsentsTable consents={[makeConsent()]} page={2} pageSize={2} totalItems={4} onPageChange={onPageChange} />
+      <ConsentsTable
+        consents={[makeConsent()]}
+        page={2}
+        pageSize={2}
+        totalItems={4}
+        onPageChange={onPageChange}
+      />,
     );
     await userEvent.click(screen.getByLabelText(/go to previous page/i));
     expect(onPageChange).toHaveBeenCalledWith(1);

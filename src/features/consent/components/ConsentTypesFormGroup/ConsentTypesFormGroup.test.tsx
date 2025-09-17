@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useForm } from 'react-hook-form';
 import { describe, it, expect } from 'vitest';
 import ConsentTypesFormGroup from './ConsentTypesFormGroup';
 import type { ConsentType } from '../../types';
-import { useForm } from 'react-hook-form';
 import type { ConsentFormValues } from '../../validation/consentSchema';
 
 function renderWithForm(ui: (args: { control: any }) => JSX.Element) {
   function Wrapper() {
     const { control } = useForm<ConsentFormValues>({
-      defaultValues: { name: '', email: '', consentTypes: [] }
+      defaultValues: { name: '', email: '', consentTypes: [] },
     });
     return ui({ control });
   }
@@ -20,7 +20,7 @@ describe('ConsentTypesFormGroup', () => {
   const types: ConsentType[] = [
     { name: 'email', label: 'Receive newsletter via email' },
     { name: 'sms', label: 'Receive newsletter via SMS' },
-    { name: 'ads', label: 'Targeted ads' }
+    { name: 'ads', label: 'Targeted ads' },
   ];
 
   it('renders provided consent types with default title', () => {
@@ -54,7 +54,12 @@ describe('ConsentTypesFormGroup', () => {
 
   it('renders error message when provided', () => {
     renderWithForm(({ control }) => (
-      <ConsentTypesFormGroup control={control} isLoading={false} consentTypes={types} errors={{ message: 'Select at least one' } as any} />
+      <ConsentTypesFormGroup
+        control={control}
+        isLoading={false}
+        consentTypes={types}
+        errors={{ message: 'Select at least one' } as any}
+      />
     ));
     expect(screen.getByText(/select at least one/i)).toBeInTheDocument();
   });

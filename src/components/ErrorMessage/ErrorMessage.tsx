@@ -1,5 +1,5 @@
-import { Alert, AlertTitle, Box, Button, Typography } from '@mui/material';
-import { ReactNode } from 'react';
+import { Alert, AlertTitle, Box, Button } from '@mui/material';
+import type { ReactNode } from 'react';
 
 interface ErrorMessageProps {
   title?: string;
@@ -8,16 +8,32 @@ interface ErrorMessageProps {
   actions?: ReactNode;
 }
 
-export default function ErrorMessage({ title = 'Error', message = 'Something went wrong', retry, actions }: ErrorMessageProps) {
+export default function ErrorMessage({
+  title = 'Error',
+  message = 'Something went wrong',
+  retry,
+  actions,
+}: ErrorMessageProps) {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={6} gap={2}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      py={6}
+      gap={2}
+    >
       <Alert
         severity="error"
         sx={{ width: '100%', maxWidth: 480 }}
         action={
           (retry || actions) && (
             <Box display="flex" gap={2}>
-              {retry && <Button color="inherit" size="small" onClick={retry}>Retry</Button>}
+              {retry && (
+                <Button color="inherit" size="small" onClick={retry}>
+                  Retry
+                </Button>
+              )}
               {actions}
             </Box>
           )

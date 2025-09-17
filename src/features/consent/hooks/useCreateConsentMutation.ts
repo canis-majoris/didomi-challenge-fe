@@ -8,10 +8,10 @@ export function useCreateConsentMutation(): UseMutationResult<Consent, Error, Co
   return useMutation({
     mutationFn: createConsent,
     onSuccess: () => {
-      // Invalidate consents list to refetch
-      qc.invalidateQueries({ queryKey: [CONSENTS_QK] });
+      // Invalidate consents list to refetch (ignore returned promise)
+      void qc.invalidateQueries({ queryKey: [CONSENTS_QK] });
       // Optimistically increment total count in cache
       qc.setQueryData([CONSENTS_TOTAL_QK], (prevTotal: number) => (prevTotal || 0) + 1);
-    }
+    },
   });
 }

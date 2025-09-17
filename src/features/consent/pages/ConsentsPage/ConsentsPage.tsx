@@ -1,9 +1,9 @@
 import { Stack, Typography } from '@mui/material';
+import { useQueryState, parseAsInteger } from 'nuqs';
+import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage } from '@/components';
 import { CONSENTS_TOTAL_QK, useConsentsQuery } from '../../hooks';
 import { ConsentsTable } from '../../components';
-import { useQueryState, parseAsInteger } from 'nuqs';
-import { useQueryClient } from '@tanstack/react-query';
 
 export default function ConsentsPage() {
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
@@ -19,13 +19,14 @@ export default function ConsentsPage() {
     error: consentsError,
   } = useConsentsQuery({ page, pageSize });
 
-  if (!isConsentsLoading && (isConsentsError || !consents)) return (
-    <ErrorMessage
-      title="Failed to load"
-      message={(consentsError as Error)?.message || 'Unable to load consents'}
-      retry={refetchConsents}
-    />
-  );
+  if (!isConsentsLoading && (isConsentsError || !consents))
+    return (
+      <ErrorMessage
+        title="Failed to load"
+        message={(consentsError as Error)?.message || 'Unable to load consents'}
+        retry={refetchConsents}
+      />
+    );
 
   // Try to get total from cache, fallback to fetched total
   const total = qc.getQueryData<number>([CONSENTS_TOTAL_QK]) ?? consents.total;

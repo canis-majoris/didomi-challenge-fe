@@ -18,7 +18,7 @@ function setup() {
           </SnackbarProvider>
         </QueryClientProvider>
       </NuqsAdapter>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 }
 
@@ -30,7 +30,9 @@ describe('GiveConsentPage', () => {
     const checkbox = screen.getByLabelText(/newsletter via email/i);
     await userEvent.click(checkbox);
     await userEvent.click(screen.getByRole('button', { name: /give consent/i }));
-    await waitFor(() => expect((screen.getByLabelText(/name/i) as HTMLInputElement).value).toBe(''));
+    await waitFor(() =>
+      expect((screen.getByLabelText(/name/i) as HTMLInputElement).value).toBe(''),
+    );
   });
   it('shows validation errors', async () => {
     setup();

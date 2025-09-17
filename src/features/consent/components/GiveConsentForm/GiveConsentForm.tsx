@@ -7,14 +7,16 @@ import ConsentTypesFormGroup from '../ConsentTypesFormGroup/ConsentTypesFormGrou
 import { useCreateConsentMutation, useConsentTypesQuery } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 
-interface GiveConsentFormProps { onSubmitted?: () => void }
+interface GiveConsentFormProps {
+  onSubmitted?: () => void;
+}
 
 export default function GiveConsentForm({ onSubmitted }: GiveConsentFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { control, handleSubmit, reset, formState } = useForm<ConsentFormValues>({
     defaultValues: { name: '', email: '', consentTypes: [] },
-    resolver: zodResolver(consentSchema)
+    resolver: zodResolver(consentSchema),
   });
   const { data: consentTypes = [], isLoading: isConsentTypesLoading } = useConsentTypesQuery();
   const { mutate: createConsent, isPending: isCreatingConsent } = useCreateConsentMutation();
@@ -29,31 +31,39 @@ export default function GiveConsentForm({ onSubmitted }: GiveConsentFormProps) {
       },
       onError: (error: Error) => {
         enqueueSnackbar(`Failed to add consent: ${error.message}`, { variant: 'error' });
-      }
+      },
     });
 
   return (
     <Box component="form" onSubmit={handleSubmit(submit)} noValidate>
       <Stack spacing={3}>
-        <Controller name="name" control={control} render={({ field }) => (
-          <TextField
-            {...field}
-            label="Name"
-            required
-            error={!!formState.errors.name}
-            helperText={formState.errors.name?.message}
-          />
-        )} />
-        <Controller name="email" control={control} render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            type="email"
-            required
-            error={!!formState.errors.email}
-            helperText={formState.errors.email?.message}
-          />
-        )} />
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Name"
+              required
+              error={!!formState.errors.name}
+              helperText={formState.errors.name?.message}
+            />
+          )}
+        />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              type="email"
+              required
+              error={!!formState.errors.email}
+              helperText={formState.errors.email?.message}
+            />
+          )}
+        />
         <ConsentTypesFormGroup
           control={control}
           isLoading={isConsentTypesLoading}

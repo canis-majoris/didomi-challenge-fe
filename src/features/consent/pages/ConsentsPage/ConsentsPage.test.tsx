@@ -1,18 +1,18 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import ConsentsPage from './ConsentsPage';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createConsent, __resetStore } from '.././../api/data-access';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import * as api from '.././../api/data-access';
+import { render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NuqsAdapter } from 'nuqs/adapters/react';
+import ConsentsPage from './ConsentsPage';
+import { createConsent } from '../../api/data-access';
+import * as api from '../../api/data-access';
 
 function setup(qc?: QueryClient) {
   const client =
     qc ||
     new QueryClient({
-      defaultOptions: { queries: { retry: false } }
+      defaultOptions: { queries: { retry: false } },
     });
   return render(
     <MemoryRouter>
@@ -21,7 +21,7 @@ function setup(qc?: QueryClient) {
           <ConsentsPage />
         </QueryClientProvider>
       </NuqsAdapter>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 }
 

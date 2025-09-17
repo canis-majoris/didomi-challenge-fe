@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import type { Consent, ConsentInput, ConsentType, GetConsentsQuery } from 'src/features/consent/types';
-import { PaginatedResult } from '@/types/data-access';
+import type { PaginatedResult } from '@/types/data-access';
+import type { Consent, ConsentInput, ConsentType, GetConsentsQuery } from '../types';
 
 /***********************
  * In-memory mock store
@@ -11,42 +11,42 @@ const STORE: Consent[] = [
     name: 'John Doe',
     email: 'john.doe@example.com',
     consentTypes: ['email', 'ads'],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: uuid(),
     name: 'Alice Smith',
     email: 'alice.smith@example.com',
     consentTypes: ['sms'],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: uuid(),
     name: 'Bob Johnson',
     email: 'bob.johnson@example.com',
     consentTypes: ['ads'],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: uuid(),
     name: 'Eve Adams',
     email: 'eve.adams@example.com',
     consentTypes: ['email', 'sms'],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   },
   {
     id: uuid(),
     name: 'Charlie Brown',
     email: 'charlie.brown@example.com',
     consentTypes: ['email'],
-    createdAt: new Date().toISOString()
-  }
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 const CONSENT_TYPES: ConsentType[] = [
   { name: 'email', label: 'Receive newsletter via email' },
   { name: 'sms', label: 'Receive newsletter via SMS' },
-  { name: 'ads', label: 'Targeted ads' }
+  { name: 'ads', label: 'Targeted ads' },
 ];
 
 function delay(ms = 250) {
@@ -71,7 +71,7 @@ export async function createConsent(input: ConsentInput): Promise<Consent> {
     name: input.name.trim(),
     email: input.email.toLowerCase(),
     consentTypes: [...input.consentTypes],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   };
   STORE.unshift(c);
   return c;

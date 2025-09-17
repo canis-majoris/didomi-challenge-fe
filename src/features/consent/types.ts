@@ -14,6 +14,6 @@ export interface Consent extends ConsentInput {
 export type ConsentType = {
   name: string;
   label: string;
-}
+};
 
 export type GetConsentsQuery = Pick<PaginatedResult<Consent>, 'page' | 'pageSize'>;

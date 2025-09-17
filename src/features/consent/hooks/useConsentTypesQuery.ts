@@ -6,6 +6,6 @@ import { CONSENT_TYPES_QK } from './keys';
 export function useConsentTypesQuery(): UseQueryResult<ConsentType[], Error> {
   return useQuery({
     queryKey: [CONSENT_TYPES_QK],
-    queryFn: () => getAllConsentTypes()
+    queryFn: () => getAllConsentTypes(),
   });
 }

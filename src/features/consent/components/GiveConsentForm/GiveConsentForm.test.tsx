@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import GiveConsentForm from './GiveConsentForm';
-import { ConsentType } from '@/features/consent/types';
+import { ConsentType } from '../../types';
 import * as hooks from '../../hooks';
 
 vi.mock('../../hooks', () => ({
@@ -17,7 +17,7 @@ describe('GiveConsentForm', () => {
   const types: ConsentType[] = [
     { name: 'email', label: 'Receive newsletter via email' },
     { name: 'sms', label: 'Receive newsletter via SMS' },
-    { name: 'ads', label: 'Targeted ads' }
+    { name: 'ads', label: 'Targeted ads' },
   ];
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('GiveConsentForm', () => {
         <SnackbarProvider>
           <GiveConsentForm {...props} />
         </SnackbarProvider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
   }
 
@@ -44,8 +44,12 @@ describe('GiveConsentForm', () => {
     await userEvent.click(screen.getByRole('button', { name: /give consent/i }));
 
     expect(mutate).toHaveBeenCalled();
-    const payload = (mutate.mock.calls[0][0]) as any;
-    expect(payload).toMatchObject({ name: 'Alice', email: 'alice@example.com', consentTypes: ['email'] });
+    const payload = mutate.mock.calls[0][0] as any;
+    expect(payload).toMatchObject({
+      name: 'Alice',
+      email: 'alice@example.com',
+      consentTypes: ['email'],
+    });
   });
 
   it('does not submit when no consent type selected (validation error)', async () => {

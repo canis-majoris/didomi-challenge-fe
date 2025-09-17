@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     sourcemap: true,
-    target: 'es2020'
+    target: 'es2020',
   },
   resolve: {
     alias: {
@@ -14,7 +14,7 @@ export default defineConfig({
       '@/features': path.resolve(__dirname, 'src/features'),
       '@/utils': path.resolve(__dirname, 'src/utils'),
       '@/types': path.resolve(__dirname, 'src/types'),
-    }
+    },
   },
   test: {
     environment: 'jsdom',
@@ -26,7 +26,7 @@ export default defineConfig({
         statements: 80,
         branches: 80,
         functions: 80,
-        lines: 80
+        lines: 80,
       },
       exclude: [
         'node_modules/',
@@ -37,7 +37,7 @@ export default defineConfig({
         'src/types/',
         'src/**/pages/index.ts',
         'src/**/types.ts',
-      ]
-    }
-  }
+      ],
+    },
+  },
 });

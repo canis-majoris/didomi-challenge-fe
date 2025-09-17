@@ -1,10 +1,17 @@
-import { keepPreviousData, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
-import { PaginatedResult } from '@/types/data-access';
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+  type UseQueryResult,
+} from '@tanstack/react-query';
+import type { PaginatedResult } from '@/types/data-access';
 import { listConsents } from '../api/data-access';
 import type { Consent, GetConsentsQuery } from '../types';
 import { CONSENTS_QK, CONSENTS_TOTAL_QK } from './keys';
 
-export function useConsentsQuery(params: Required<GetConsentsQuery>): UseQueryResult<PaginatedResult<Consent>, Error> {
+export function useConsentsQuery(
+  params: Required<GetConsentsQuery>,
+): UseQueryResult<PaginatedResult<Consent>, Error> {
   const qc = useQueryClient();
   const { page, pageSize } = params;
   return useQuery({
