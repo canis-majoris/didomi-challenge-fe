@@ -14,7 +14,7 @@ interface GiveConsentFormProps {
 export default function GiveConsentForm({ onSubmitted }: GiveConsentFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { control, handleSubmit, reset, formState } = useForm<ConsentFormValues>({
+  const { control, handleSubmit, reset, formState, watch } = useForm<ConsentFormValues>({
     defaultValues: { name: '', email: '', consentTypes: [] },
     resolver: zodResolver(consentSchema),
   });
@@ -33,6 +33,8 @@ export default function GiveConsentForm({ onSubmitted }: GiveConsentFormProps) {
         enqueueSnackbar(`Failed to add consent: ${error.message}`, { variant: 'error' });
       },
     });
+
+  const hasSelectedConsentTypes = (watch('consentTypes') ?? []).length > 0;
 
   return (
     <Box component="form" onSubmit={handleSubmit(submit)} noValidate>
@@ -75,7 +77,7 @@ export default function GiveConsentForm({ onSubmitted }: GiveConsentFormProps) {
           variant="contained"
           size="large"
           loading={isCreatingConsent}
-          disabled={isCreatingConsent}
+          disabled={isCreatingConsent || !hasSelectedConsentTypes}
         >
           {isCreatingConsent ? 'Saving...' : 'Give consent'}
         </Button>

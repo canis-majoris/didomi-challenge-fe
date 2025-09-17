@@ -34,9 +34,12 @@ describe('GiveConsentPage', () => {
       expect((screen.getByLabelText(/name/i) as HTMLInputElement).value).toBe(''),
     );
   });
-  it('shows validation errors', async () => {
+  it('keeps submit disabled until a consent type is selected', async () => {
     setup();
-    await userEvent.click(screen.getByRole('button', { name: /give consent/i }));
-    await screen.findByText(/select at least one/i);
+    const submit = screen.getByRole('button', { name: /give consent/i });
+    expect(submit).toBeDisabled();
+    const checkbox = screen.getByLabelText(/newsletter via email/i);
+    await userEvent.click(checkbox);
+    expect(submit).toBeEnabled();
   });
 });

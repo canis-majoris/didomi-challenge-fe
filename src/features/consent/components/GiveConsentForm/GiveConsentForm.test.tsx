@@ -56,7 +56,8 @@ describe('GiveConsentForm', () => {
     renderForm();
     await userEvent.type(screen.getByRole('textbox', { name: /name/i }), 'Bob');
     await userEvent.type(screen.getByRole('textbox', { name: /email/i }), 'bob@example.com');
-    await userEvent.click(screen.getByRole('button', { name: /give consent/i }));
+    const submit = screen.getByRole('button', { name: /give consent/i });
+    expect(submit).toBeDisabled();
     expect(mutate).not.toHaveBeenCalled();
   });
 
